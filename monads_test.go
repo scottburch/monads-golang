@@ -62,7 +62,7 @@ func Test(t *testing.T) {
 		t.Run("Bind()", func(t *testing.T) {
 			t.Run("it should run on a Success", func(t *testing.T) {
 				x := Success(10).
-					Bind(IntToValidatorFn(doubleBind)).
+					Bind(IntToValidationFn(doubleBind)).
 					Join()
 				assert.Equal(t, 20, x)
 			})
@@ -98,13 +98,13 @@ func Test(t *testing.T) {
 	t.Run("types demo", func(t *testing.T) {
 		Success(10).
 			Map(IntToIntFn(double)).
-			Bind(IntToValidatorFn(doubleBind)).
+			Bind(IntToValidationFn(doubleBind)).
 			Map(IntToIntFn(
 				func(x int) int {
 					return x + 10
 				},
 			)).
-			Bind(IntToValidatorFn(
+			Bind(IntToValidationFn(
 				func(x int) Validation {
 					return Success(x * 10)
 				},

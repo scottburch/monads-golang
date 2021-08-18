@@ -24,16 +24,18 @@ if x != nil {
 Success(10).
 	Map(IntToIntFn(double)).
 	Bind(IntToValidationFn(doubleBind)).
-	Map(IntToIntFn(
+	Bind(IntToValidationFn(
 		func(x int) int {
-			return x + 10
+			return Fail(errors.New("failing here"))
 		},
 	)).
-	Bind(IntToValidationFn(
+    // The following function will not run due to the previous Fail
+	Bind(IntToValidationFn(   
 		func(x int) Validation {
 			return Success(x * 10)
 		},
-	))
+	)).
+    JoinError()   // returns x, error
 
 // ***********************************************
 func double(x int) int {

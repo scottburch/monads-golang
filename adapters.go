@@ -16,7 +16,7 @@ func IntToIntErrorFn(fn func(x int) (int, error)) MapErrorFn {
 	}
 }
 
-func IntToValidatorFn(fn func(x int) Validation) BindFn {
+func IntToValidationFn(fn func(x int) Validation) BindFn {
 	return func(x interface{}) Validation {
 		return fn(x.(int))
 	}
