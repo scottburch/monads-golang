@@ -101,7 +101,7 @@ func Test(t *testing.T) {
 				Error(errors.New("some error")).
 					CatchMap(func(err error) {
 						ran = true
-				})
+					})
 				assert.True(t, ran)
 			})
 
@@ -109,16 +109,32 @@ func Test(t *testing.T) {
 				Some(10).
 					CatchMap(func(err error) {
 						t.Error("Should not run CatchMap on Some")
-				})
+					})
 			})
 
 			t.Run("it should not run on a None", func(t *testing.T) {
 				None().
 					CatchMap(func(err error) {
 						t.Error("Should not run CatchMap on None")
-				})
+					})
 			})
 		})
+	})
+
+	t.Run("types demo", func(t *testing.T) {
+		Some(10).
+			Map(IntToIntFn(double)).
+			Bind(IntToValidatorFn(doubleBind)).
+			Map(IntToIntFn(
+				func(x int) int {
+					return x + 10
+				},
+			)).
+			Bind(IntToValidatorFn(
+				func(x int) Validator {
+					return Some(x * 10)
+				},
+			))
 	})
 }
 
@@ -133,3 +149,4 @@ func doubleError(x int) (int, error) {
 func doubleBind(x int) Validator {
 	return Some(x * 2)
 }
+
