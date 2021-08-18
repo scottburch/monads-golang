@@ -6,6 +6,20 @@
 * Works with an error return value through special mapping functions like MapError() and BindError()
 * Cleaner more easily readable code
 
+#### Validator Monad
+
+The Validator monad has three types:
+* Some = contains a regular value runs all .Map() .Bind()...
+* None = no value does not run .Map() .Bind()...
+* Error = contains an error value does not run .Map() .Bind()
+
+The Error type eliminates the need for 
+```go
+if x != nil {
+	return errors.New(....)
+}
+```
+
 #### Example
 ```go
 Some(10).
