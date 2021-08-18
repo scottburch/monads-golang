@@ -59,7 +59,7 @@ func (m Validator) Join() interface{} {
 	return m.v
 }
 
-func (m Validator) OnError(fn func (err error)) Validator {
+func (m Validator) CatchMap(fn func (err error)) Validator {
 	if m.err != nil {
 		fn(m.err)
 	}

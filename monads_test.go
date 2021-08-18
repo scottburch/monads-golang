@@ -40,7 +40,7 @@ func Test(t *testing.T) {
 				var ran bool
 				Some(10).
 					MapError(IntToIntErrorFn(doubleError)).
-					OnError(func(err error) {
+					CatchMap(func(err error) {
 						assert.Equal(t, "double error", err.Error())
 						ran = true
 					})
@@ -95,11 +95,11 @@ func Test(t *testing.T) {
 			})
 		})
 
-		t.Run("OnError()", func(t *testing.T) {
+		t.Run("CatchMap()", func(t *testing.T) {
 			t.Run("it should run on an Error", func(t *testing.T) {
 				var ran bool
 				Error(errors.New("some error")).
-					OnError(func(err error) {
+					CatchMap(func(err error) {
 						ran = true
 				})
 				assert.True(t, ran)
@@ -107,15 +107,15 @@ func Test(t *testing.T) {
 
 			t.Run("it should not run on Some", func(t *testing.T) {
 				Some(10).
-					OnError(func(err error) {
-						t.Error("Should not run OnError on Some")
+					CatchMap(func(err error) {
+						t.Error("Should not run CatchMap on Some")
 				})
 			})
 
 			t.Run("it should not run on a None", func(t *testing.T) {
 				None().
-					OnError(func(err error) {
-						t.Error("Should not run OnError on None")
+					CatchMap(func(err error) {
+						t.Error("Should not run CatchMap on None")
 				})
 			})
 		})
