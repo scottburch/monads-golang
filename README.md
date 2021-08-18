@@ -25,7 +25,7 @@ Success(10).
 	Map(IntToIntFn(double)).
 	Bind(IntToValidationFn(doubleBind)).
 	Bind(IntToValidationFn(
-		func(x int) int {
+		func(x int) Validation {
 			return Fail(errors.New("failing here"))
 		},
 	)).
