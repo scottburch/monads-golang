@@ -1,4 +1,4 @@
-module github.com/scottburch/monads-golang
+module github.com/scottburch/monads
 
 go 1.15
 
