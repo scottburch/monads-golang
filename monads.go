@@ -12,3 +12,11 @@ func IntToIntErrorFn(fn func(x int) (int, error)) func(x interface{}) (interface
 	}
 }
 
+func IntToValidatorFn(fn func(x int) Validator) func(x interface{}) Validator {
+	return func(x interface{}) Validator {
+		return fn(x.(int))
+	}
+}
+
+
+

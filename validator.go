@@ -40,17 +40,6 @@ func (m Validator) Bind(fn func(interface{}) Validator) Validator {
 	return m
 }
 
-func (m Validator) BindError(fn func(interface{}) (Validator, error)) Validator {
-	if m.isSome {
-		v, err := fn(m.v)
-		if err != nil {
-			return Error(err)
-		}
-		return Some(v)
-	}
-	return m
-}
-
 func (m Validator) MapError(fn func(interface{}) (interface{}, error)) Validator {
 	if m.isSome {
 		v, err := fn(m.v)
@@ -68,4 +57,11 @@ func (m Validator) JoinError() (interface{}, error) {
 
 func (m Validator) Join() interface{} {
 	return m.v
+}
+
+func (m Validator) OnError(fn func (err error)) Validator {
+	if m.err != nil {
+		fn(m.err)
+	}
+	return m
 }
